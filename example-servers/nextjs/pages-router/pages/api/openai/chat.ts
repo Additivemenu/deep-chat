@@ -11,6 +11,7 @@ export const config = {
 // Make sure to set the OPENAI_API_KEY environment variable
 
 async function handler(req: NextRequest) {
+  // ! 1. parse NextRequest to desire format
   // Text messages are stored inside request body using the Deep Chat JSON format:
   // https://deepchat.dev/docs/connect
   const textRequestBody = (await req.json()) as DeepChatOpenAITextRequestBody;
@@ -18,6 +19,7 @@ async function handler(req: NextRequest) {
 
   const chatBody = createReqChatBody(textRequestBody);
 
+  // ! 2. OpenAI completion api calling ----------------------------
   const result = await fetch('https://api.openai.com/v1/chat/completions', {
     headers: {
       'Content-Type': 'application/json',
@@ -29,6 +31,9 @@ async function handler(req: NextRequest) {
 
   const openAIResult = (await result.json()) as OpenAIConverseResult;
   if (openAIResult.error) throw openAIResult.error.message;
+  // ! ----------------------------------------------------------
+
+  // ! 3. return NextResponse to Deep Chat 
   // Sends response back to Deep Chat using the Response format:
   // https://deepchat.dev/docs/connect/#Response
   return NextResponse.json({text: openAIResult.choices[0].message.content});

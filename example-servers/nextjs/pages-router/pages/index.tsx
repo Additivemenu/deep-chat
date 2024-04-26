@@ -23,6 +23,8 @@ export default function IndexPage() {
           Deep Chat test ground for{' '}
           <a href="https://github.com/OvidijusParsiunas/deep-chat/tree/main/example-servers/nextjs">NextJs</a>
         </h1>
+
+        {/* =============================== Server for a custom API ===================================*/}
         <h1>Server for a custom API</h1>
         <div className={styles.components}>
           <div className={styles.diagonalLine} style={{background: '#e8f5ff'}}></div>
@@ -67,6 +69,8 @@ export default function IndexPage() {
             }}
           />
         </div>
+
+        {/* =============================== Server for a OpenAI ===================================*/}
         <h1 className={styles.serverTitle}>Server for OpenAI</h1>
         <a href="https://openai.com/blog/openai-api" target="_blank" rel="noreferrer">
           <img
@@ -81,21 +85,25 @@ export default function IndexPage() {
           <div className={styles.diagonalLine} style={{background: '#f2f2f2'}}></div>
           {/* by setting maxMessages requestBodyLimits to 0 or lower - each request will send full chat history:
             https://deepchat.dev/docs/connect/#requestBodyLimits */}
+          {/* TODO:  not streaming  ------------ */}
+          {/* Q1: how does OpenAI completion api calling is bound to this component -> api route  */}
           <DeepChat
-            chatStyle={{borderRadius: '10px'}}
+            chatStyle={{borderRadius: '20px', border: 'solid'}}
             introMessage={{text: 'Send a chat message through an example server to OpenAI.'}}
             request={{url: '/api/openai/chat', additionalBodyProps: {model: 'gpt-3.5-turbo'}}}
             requestBodyLimits={{maxMessages: -1}}
             errorMessages={{displayServiceErrorMessages: true}}
           />
+          {/* TODO:  streaming -------------- */}
           <DeepChat
-            chatStyle={{borderRadius: '10px'}}
+            chatStyle={{borderRadius: '10px', border: 'solid'}}
             introMessage={{text: 'Send a streamed chat message through an example server to OpenAI.'}}
             request={{url: '/api/openai/chat-stream', additionalBodyProps: {model: 'gpt-3.5-turbo'}}}
             stream={true}
             requestBodyLimits={{maxMessages: -1}}
             errorMessages={{displayServiceErrorMessages: true}}
           />
+          {/* TODO:  send files --------------- */}
           {/* If not using the camera, you can use an example image here:
             https://github.com/OvidijusParsiunas/deep-chat/blob/main/example-servers/ui/assets/example-image.png */}
           <DeepChat
@@ -111,6 +119,7 @@ export default function IndexPage() {
           />
         </div>
 
+        {/* =============================== Server for Hugging Face ===================================*/}
         <h1 className={styles.serverTitle}>Server for Hugging Face</h1>
         <a href="https://huggingface.co/docs/api-inference/index" target="_blank" rel="noreferrer">
           <img
